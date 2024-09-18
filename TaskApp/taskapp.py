@@ -83,7 +83,16 @@ else:
     if sys.argv[1] == "delete":
         # Si quiero una en especifico pongo el indice
         # Si quiero vaciarla entero pongo solo "delete" y listo
-        pass
+        f = open("tasks.json","r")
+        data = json.load(f)
+        f = open("tasks.json","w")
+        if len(sys.argv) == 2:
+            json.dump([],f)  
+        else:
+            print(f"{data[int(sys.argv[2])-1]} deleted!")
+            del data[int(sys.argv[2])-1]
+            json.dump(data,f)
+        close(f)
     
     if sys.argv[1] == "mark":
         # "-p" para poner que la tarea esté en progreso
