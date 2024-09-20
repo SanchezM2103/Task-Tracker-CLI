@@ -1,38 +1,4 @@
 ### Task App ###
-"""
-The application should run from the command line, accept user actions and inputs as arguments, and store the tasks in a JSON file. The user should be able to:
-
-Add, Update, and Delete tasks
-Mark a task as in progress or done
-List all tasks
-List all tasks that are done
-List all tasks that are not done
-List all tasks that are in progress
-Here are some constraints to guide the implementation:
-
-You can use any programming language to build this project.
-Use positional arguments in command line to accept user inputs.
-Use a JSON file to store the tasks in the current directory.
-The JSON file should be created if it does not exist.
-Use the native file system module of your programming language to interact with the JSON file.
-Do not use any external libraries or frameworks to build this project.
-Ensure to handle errors and edge cases gracefully.
-
-
-python taskapp.py add "..."
-python taskapp delete (una en especifico o todas)
-python taskapp deletefile
-
-python taskapp.py list
-python taskapp.py listdone
-python taskapp.py listnotdone
-python taskapp.py currentlist
-"""
-
-"open() con a --> Open the file for writing."
-"The data being written will be inserted at the end of the file. Creates a new file if it does not exist."
-
-
 import sys
 import os
 import json
@@ -72,8 +38,6 @@ else:
     if sys.argv[1] == "list":
         f = open("tasks.json","r")
         data = json.load(f)
-        #print(tuple(data[0].items())[0][1]) 
-        # Si quiero seleccionar la tarea especifica
         for i in range(len(tuple(data))):
             task = tuple(data[i].items())[0][1]
             progress = tuple(data[i].items())[1][1]
@@ -81,32 +45,64 @@ else:
         close(f)
         
     if sys.argv[1] == "delete":
-        # Si quiero una en especifico pongo el indice
-        # Si quiero vaciarla entero pongo solo "delete" y listo
         f = open("tasks.json","r")
         data = json.load(f)
         f = open("tasks.json","w")
         if len(sys.argv) == 2:
-            json.dump([],f)  
+            json.dump([],f,indent=3)  
         else:
             print(f"{data[int(sys.argv[2])-1]} deleted!")
             del data[int(sys.argv[2])-1]
-            json.dump(data,f)
+            json.dump(data,f,indent=3)
         close(f)
     
     if sys.argv[1] == "mark":
-        # "-p" para poner que la tarea esté en progreso
-        # "-d" para poner que la tarea está acabada
-        pass
+        # "-p": In progress 
+        # "-d": Done
+        f = open("tasks.json","r")
+        data = json.load(f)
+        f = open("tasks.json","w")
+        if len(sys.argv) == 4 and int(sys.argv[3]) < len(data):
+            if sys.argv[2] == "-p":
+                data[int(sys.argv[3])-1]["Progress"] = "In progress"
+                json.dump(data,f,indent=3)
+            elif sys.argv[2] == "-d":
+                data[int(sys.argv[3])-1]["Progress"] = "Done"
+                json.dump(data,f,indent=3)        
+        else:
+            json.dump(data,f,indent=3) 
+            print("Index out of range!")
+        close(f)
     
     if sys.argv[1] == "listdone":
-        pass
+        f = open("tasks.json","r")
+        data = json.load(f)
+        for i in range(len(tuple(data))):
+            task = tuple(data[i].items())[0][1]
+            progress = tuple(data[i].items())[1][1]
+            if progress == "Done":
+                print(f"Task: {task}")
+        close(f)
 
     if sys.argv[1] == "listnotdone":
-        pass
+        f = open("tasks.json","r")
+        data = json.load(f)
+        for i in range(len(tuple(data))):
+            task = tuple(data[i].items())[0][1]
+            progress = tuple(data[i].items())[1][1]
+            if progress == "Not done":
+                print(f"Task: {task}")
+        close(f)
 
     if sys.argv[1] == "currentlist":
-        pass
+        f = open("tasks.json","r")
+        data = json.load(f)
+        for i in range(len(tuple(data))):
+            task = tuple(data[i].items())[0][1]
+            progress = tuple(data[i].items())[1][1]
+            if progress == "In progress":
+                print(f"Task: {task}")
+        close(f)
     
     if sys.argv[1] == "deletefile":
         os.remove("tasks.json")
