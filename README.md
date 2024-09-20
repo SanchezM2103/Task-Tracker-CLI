@@ -19,20 +19,20 @@ Use the native file system module of your programming language to interact with 
 Do not use any external libraries or frameworks to build this project.
 Ensure to handle errors and edge cases gracefully.
 
-python taskapp.py add "..."
+- python taskapp.py add "..."
 
-python taskapp delete (element n)
+- python taskapp delete (element n)
 
-python taskapp delete (deletes everything)
+- python taskapp delete (deletes everything)
 
-python taskapp deletefile
+- python taskapp deletefile
 
-python taskapp mark -p (In progress) or -d (Done)
+- python taskapp mark -p (In progress) or -d (Done)
 
-python taskapp.py list
+- python taskapp.py list
 
-python taskapp.py listdone
+- python taskapp.py listdone
 
-python taskapp.py listnotdone
+- python taskapp.py listnotdone
 
-python taskapp.py currentlist
+- python taskapp.py currentlist
